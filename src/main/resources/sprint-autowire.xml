@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+<!--    可以用abstract=true指定为模板不能实例化，只能被继承-->
+<!--    可以用parent属性来继承另一个bean或模板-->
+<!--    如果一个bean没有指定class属性，则它必须是一个抽象Bean-->
+    <bean  id="carmodel" abstract="true"></bean>
+<!--    配置bean的后置处理器,给全部的bean添加了后置处理,不需要ID属性,要实现BeanPostProcessor接口-->
+    <bean class="com.bdqn.util.MyBeanProcessor"></bean>
+    <bean parent="carmodel" class="com.bdqn.util.Car" id="car1" p:name="奥迪" p:type="A6" init-method="init" destroy-method="destroy"></bean>
+<!--    可以使用Spel表达式来给bean动态赋值，语法是#{},里面可以用java的常用语法-->
+<!--    使用Spel表达式调用静态属性和方法时，要使用T(全类名).静态属性或方法 来调用-->
+    <bean parent="carmodel" class="com.bdqn.util.Car" id="car2" p:name="奥迪" p:type="A6"
+    p:speed="#{T(java.lang.Math).PI}"></bean>
+<!--    autowire=byName 根据bean的Id名字和类的getter,setter方法的名字匹配-->
+<!--    <bean class="com.bdqn.util.Person" id="person" autowire="byName"></bean>-->
+<!--    用depends-on指定前置依赖，被依赖的Bean会先创建出来，可以同时依赖多个bean,用逗号或空格配置-->
+    <bean class="com.bdqn.util.Person" id="person" depends-on="car2,car1" p:car-ref="car2" scope="prototype"></bean>
+<!--    通过scope属性设置Bean的作用域，默认是singleton单例，prototype是每次创建新实力-->
+<!--    单例bean的实力会在容器初始化时被创建出来-->
+
+<!--    使用context:property-placeholder属性指定外部的属性配置文件-->
+<!--    通过${属性名}的方式来获取外部属性配置文件里的值-->
+<!--   通过 <props><prop key="uname">${uname}</prop>....</props>给properties赋值-->
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+    <bean class="com.bdqn.util.DB" id="db"  p:driver="${driver}" p:password="${pwd}" p:url="${url}" p:userName="${uname}">
+        <property name="properties">
+            <props>
+                <prop key="uname">${uname}</prop>
+                <prop key="pwd">${pwd}</prop>
+                <prop key="url">${url}</prop>
+                <prop key="driver">${driver}</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
