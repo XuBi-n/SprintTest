@@ -7,6 +7,7 @@
 <!--    可以用parent属性来继承另一个bean或模板-->
 <!--    如果一个bean没有指定class属性，则它必须是一个抽象Bean-->
     <bean  id="carmodel" abstract="true"></bean>
+<!--    配置bean的后置处理器,给全部的bean添加了后置处理,不需要ID属性,要实现BeanPostProcessor接口-->
     <bean class="com.bdqn.util.MyBeanProcessor"></bean>
     <bean parent="carmodel" class="com.bdqn.util.Car" id="car1" p:name="奥迪" p:type="A6" init-method="init" destroy-method="destroy"></bean>
 <!--    可以使用Spel表达式来给bean动态赋值，语法是#{},里面可以用java的常用语法-->
