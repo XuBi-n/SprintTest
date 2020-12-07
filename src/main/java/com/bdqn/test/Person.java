@@ -1,8 +1,10 @@
 package com.bdqn.test;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Properties;
-
+@Repository
 public class Person {
 
 
