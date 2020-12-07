@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="person" class="com.bdqn.test.PersonFactory" factory-method="getPerson">
+    <constructor-arg value="p1"></constructor-arg>
+</bean>
+<!--
+先创建实例工厂类的bean
+    通过 factory-bean指定工厂实例
+    通过factory-method指定工厂方法
+    通过 constructor-arg 指定工厂方法的参数
+-->
+    <bean class="com.bdqn.test.PersonFactory1" id="factory1"></bean>
+    <bean id="person1" factory-bean="factory1" factory-method="getPerson">
+        <constructor-arg value="p3"></constructor-arg>
+    </bean>
+
+    <bean id="person2" class="com.bdqn.test.MyBean">
+        <property name="bname" value="赵六"></property>
+    </bean>
+</beans>

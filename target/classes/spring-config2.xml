@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <bean class="com.bdqn.test.Test"></bean>
+        <util:list id="list1">
+            <value>AAA</value>
+            <value>BBB</value>
+            <value>CCC</value>
+        </util:list>
+
+    <util:properties id="prop1">
+        <prop key="username">sa</prop>
+        <prop key="password">123456</prop>
+    </util:properties>
+
+    <util:properties id="prop2">
+        <prop key="username">${uname}</prop>
+        <prop key="url">${url}</prop>
+        <prop key="password">${pwd}</prop>
+        <prop key="driver">${driver}</prop>
+    </util:properties>
+
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+
+<!--
+parent:指定文档继承
+depends-on:指定依赖关系
+scope:指定作用域 prototype 原型  singleton  单例
+SpEL表达式:#{T(全类名).静态方法或属性}
+生命周期:
+1.构造方法
+2.setter方法
+3.1 before
+3.2 init
+3.3 after init
+4.使用
+5.destroy
+ -->
+       <bean id="person2" class="com.bdqn.test.Person" p:name="李四" p:names-ref="list1" p:properties-ref="prop1"></bean>
+       <bean id="person3" parent="person2" p:name="#{T(com.bdqn.test.Person).PID}" p:properties-ref="prop2" depends-on="person2"></bean>
+
+
+    <bean class="com.bdqn.test.Demp" id="demp" autowire="byName"></bean>
+
+
+        <bean id="person" class="com.bdqn.test.Person"  destroy-method="destroy" init-method="init">
+            <property name="name">
+                <value><![CDATA[<张三>]]></value>
+            </property>
+            <property name="names">
+                <list>
+                    <value>AAA</value>
+                    <value>BBB</value>
+                    <value>CCC</value>
+                </list>
+            </property>
+            <property name="properties">
+                <props>
+                    <prop key="username">sa</prop>
+                    <prop key="password">123456</prop>
+                </props>
+            </property>
+        </bean>
+</beans>
