@@ -2,20 +2,16 @@ package com.bdqn.main;
 
 import com.bdqn.test.Demp;
 import com.bdqn.test.Person;
-import com.bdqn.util.Car;
-import com.bdqn.util.DB;
+import com.bdqn.util.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
     //控制反转 IOC  面向切面 AOP（依赖注入）
     public static void main(String[] args) {
-        ApplicationContext ctx=new ClassPathXmlApplicationContext("spring-config3.xml");
-        Person person=(Person) ctx.getBean("person");
-        Person person1=(Person) ctx.getBean("person2");
-        System.out.println(person);
-        System.out.println(person1);
-
+        ApplicationContext ctx=new ClassPathXmlApplicationContext("spring-ioc.xml");
+        Cuge cuge= (Cuge) ctx.getBean("cuge");
+        cuge.open();
 
 
 
