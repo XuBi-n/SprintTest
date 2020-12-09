@@ -13,6 +13,8 @@ public class Main {
         Cuge cuge= (Cuge) ctx.getBean("cuge");
         cuge.open();
 
+        BigDog bd= (BigDog) ctx.getBean("bigDog");
+        bd.open();
 
 
 
